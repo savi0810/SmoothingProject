@@ -1,0 +1,63 @@
+﻿<Window x:Class="SmoothingProject.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gaussian Smoothing" Height="1000" Width="1600"
+        WindowStartupLocation="CenterScreen"
+        Background="#2D0036"
+        SnapsToDevicePixels="True"
+        UseLayoutRounding="True">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#3C0047" Margin="10" CornerRadius="8" Padding="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="GenerateButton" Content="Generate New Data" Click="GenerateButton_Click" 
+                        Background="#6A0DAD" Foreground="White" Padding="20,10" Margin="8" 
+                        BorderThickness="0" FontSize="14" FontWeight="Bold" Cursor="Hand"/>
+                <Button x:Name="SmoothButton" Content="Apply Gaussian Smoothing" Click="SmoothButton_Click"
+                        Background="#6A0DAD" Foreground="White" Padding="20,10" Margin="8" 
+                        BorderThickness="0" FontSize="14" FontWeight="Bold" Cursor="Hand"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="#3C0047" CornerRadius="8" Padding="8" 
+                    BorderBrush="#6A0DAD" BorderThickness="2">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="ORIGINAL DATA" 
+                               Foreground="White" FontWeight="Bold" FontSize="16" 
+                               HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                    <Border Background="#2D0036" CornerRadius="5" Padding="2">
+                        <Canvas x:Name="LeftCanvas" Background="Transparent" 
+                                SnapsToDevicePixels="True"/>
+                    </Border>
+                </DockPanel>
+            </Border>
+
+            <Border Grid.Column="1" Background="#6A0DAD" CornerRadius="2" Margin="1,0,1,0"/>
+
+            <Border Grid.Column="2" Background="#3C0047" CornerRadius="8" Padding="8"
+                    BorderBrush="#8A2BE2" BorderThickness="2">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="SMOOTHED DATA" 
+                               Foreground="White" FontWeight="Bold" FontSize="16" 
+                               HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                    <Border Background="#2D0036" CornerRadius="5" Padding="2">
+                        <Canvas x:Name="RightCanvas" Background="Transparent"
+                                SnapsToDevicePixels="True"/>
+                    </Border>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
