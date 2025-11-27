@@ -25,38 +25,62 @@ namespace SmoothingProject
 
             Loaded += (s, e) =>
             {
-                GenerateData();
-                PlotOriginalData();
+                try
+                {
+                    GenerateData();
+                    PlotOriginalData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при инициализации: {ex.Message}", "Ошибка",
+                                  MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             };
         }
 
         private void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
-            GenerateData();
-            PlotOriginalData();
-            ClearSmoothedData();
+            try
+            {
+                GenerateData();
+                PlotOriginalData();
+                ClearSmoothedData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при генерации данных: {ex.Message}", "Ошибка",
+                              MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void SmoothButton_Click(object sender, RoutedEventArgs e)
         {
-            if (originalData.Count > 0)
+            try
             {
-                ApplySmoothing();
-                PlotSmoothedData();
+                if (originalData.Count > 0)
+                {
+                    ApplySmoothing();
+                    PlotSmoothedData();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сглаживании: {ex.Message}", "Ошибка",
+                              MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void GenerateData()
+        public void GenerateData()
         {
             originalData = dataService.GenerateSampleData(1000);
         }
 
-        private void ApplySmoothing()
+        public void ApplySmoothing()
         {
             smoothedData = smoother.Smooth(originalData, 66, 10);
         }
 
-        private void PlotOriginalData()
+        public void PlotOriginalData()
         {
             if (LeftCanvas.ActualWidth > 0 && LeftCanvas.ActualHeight > 0)
             {
@@ -64,7 +88,7 @@ namespace SmoothingProject
             }
         }
 
-        private void PlotSmoothedData()
+        public void PlotSmoothedData()
         {
             if (RightCanvas.ActualWidth > 0 && RightCanvas.ActualHeight > 0)
             {
@@ -72,7 +96,7 @@ namespace SmoothingProject
             }
         }
 
-        private void ClearSmoothedData()
+        public void ClearSmoothedData()
         {
             RightCanvas.Children.Clear();
         }

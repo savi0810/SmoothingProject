@@ -10,7 +10,7 @@ namespace SmoothingProject.Services
 {
     public class GraphPlotter
     {
-        private const double POINT_SIZE = 8; 
+        private const double POINT_SIZE = 8;
         private const double LINE_THICKNESS = 1;
 
         private readonly Color originalColor = Color.FromRgb(100, 200, 255);
@@ -18,13 +18,19 @@ namespace SmoothingProject.Services
 
         public void PlotPoints(Canvas canvas, List<double> data, bool isSmoothed = false)
         {
-            if (canvas == null || data == null || data.Count == 0)
-                return;
+            if (canvas == null)
+                throw new ArgumentNullException(nameof(canvas), "Canvas cannot be null");
+
+            if (data == null)
+                throw new ArgumentNullException(nameof(data), "Data cannot be null");
 
             canvas.Children.Clear();
 
-            if (canvas.ActualWidth == 0 || canvas.ActualHeight == 0)
+            if (data.Count == 0)
                 return;
+
+            if (canvas.ActualWidth == 0 || canvas.ActualHeight == 0)
+                throw new InvalidOperationException("Canvas must have positive dimensions");
 
             try
             {
@@ -90,10 +96,11 @@ namespace SmoothingProject.Services
 
                 AddExtremumLabels(canvas, minY, maxY, isSmoothed);
             }
-            catch (Exception ex)
+            catch (Exception ex) when (!(ex is ArgumentNullException || ex is InvalidOperationException))
             {
                 MessageBox.Show($"Ошибка при отрисовке: {ex.Message}", "Ошибка",
                               MessageBoxButton.OK, MessageBoxImage.Error);
+                throw;
             }
         }
 

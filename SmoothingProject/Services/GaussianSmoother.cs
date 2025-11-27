@@ -7,7 +7,16 @@ namespace SmoothingProject.Services
     {
         public List<double> Smooth(List<double> data, int windowSize, double sigma)
         {
-            if (data == null || data.Count == 0)
+            if (data == null)
+                throw new ArgumentNullException(nameof(data), "Data cannot be null");
+
+            if (windowSize <= 0)
+                throw new ArgumentException("Window size must be positive", nameof(windowSize));
+
+            if (sigma <= 0)
+                throw new ArgumentException("Sigma must be positive", nameof(sigma));
+
+            if (data.Count == 0)
                 return new List<double>();
 
             var result = new List<double>();
@@ -29,7 +38,10 @@ namespace SmoothingProject.Services
                     }
                 }
 
-                result.Add(weightedSum / weightSum);
+                if (Math.Abs(weightSum) < double.Epsilon)
+                    result.Add(data[i]); 
+                else
+                    result.Add(weightedSum / weightSum);
             }
 
             return result;
@@ -37,6 +49,9 @@ namespace SmoothingProject.Services
 
         private double CalculateGaussianWeight(int x, double sigma)
         {
+            if (sigma <= 0)
+                throw new ArgumentException("Sigma must be positive", nameof(sigma));
+
             return Math.Exp(-(x * x) / (2 * sigma * sigma)) / (Math.Sqrt(2 * Math.PI) * sigma);
         }
     }
